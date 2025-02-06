@@ -19,3 +19,17 @@ def tcount(sequence):
 print(acount(Seq1), ccount(Seq1), gcount(Seq1), tcount(Seq1))
 
 #Success
+
+#I want to try this again with a different string 
+Seq2 = 'GCTAGCATCGATCGATCGATCGATCGATCGATCGATCGACTAGCTAGCTAGCTAGCTACGATCGATCGATCGATCG'
+
+def count(sequence):
+  return sequence.count('G')
+print(count(Seq2))
+
+def TCcount(sequence):
+  return sequence.count('TC')
+print(TCcount(Seq2))
+#12
+print(TCcount(Seq1))
+#5
