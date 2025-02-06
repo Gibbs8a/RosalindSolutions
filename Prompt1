@@ -1,0 +1,21 @@
+#Sample Dataset, this is a given string 
+Seq1 = 'AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC'
+
+#Sample Output is 20 12 17 21
+
+#For a string of DNA, I will provide the count of A, C, G, and T. 
+def acount(sequence):
+  return sequence.count('A')
+
+def ccount(sequence):
+  return sequence.count('C')
+
+def gcount(sequence):
+  return sequence.count('G')
+
+def tcount(sequence):
+  return sequence.count('T')
+
+print(acount(Seq1), ccount(Seq1), gcount(Seq1), tcount(Seq1))
+
+#Success
