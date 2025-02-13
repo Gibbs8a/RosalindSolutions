@@ -1,1 +1,13 @@
 #REVC Prompt 
+#Complementing a Strand of DNA
+##The Secondary and Tertiary Structures of DNA
+DNA = 'AAAACCCGGT'
+
+#need to make a dictionary for BP and then reverse, and then string
+def reverse(dna):
+    complement = {'A':'T','T':'A','C':'G','G':'C'}
+    dnareverse = dna[::-1]
+    complementreverse = ''.join(complement[base] for base in dnareverse)
+    return complementreverse
+
+print(complementreverse(DNA))
