@@ -1,3 +1,4 @@
+#DNA	Counting DNA Nucleotides
 #Sample Dataset, this is a given string 
 Seq1 = 'AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC'
 
