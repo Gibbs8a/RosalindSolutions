@@ -1,0 +1,15 @@
+#RNA	Transcribing DNA into RNA
+#Given: A DNA string t having length at most 1000 nt.
+#Return: The transcribed RNA string of t.
+
+#Sample: GATGGAACTTGACTACGTAAATT
+
+DNA = 'GATGGAACTTGACTACGTAAATT'
+
+
+def transcribe(seq):
+  return seq.replace('T','U')
+
+RNA = transcribe(DNA)
+print(RNA)
+
