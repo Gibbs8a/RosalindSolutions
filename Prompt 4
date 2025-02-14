@@ -1,4 +1,55 @@
-#Computing GC Content
-#Identifying UNknown DNA Quickly
+##Computing GC 
+import requests
 
-Seq6404 = 'CCTGCGGAAGATCGGCACTAGAATAGCCAGAACCGTTTCTCTGAGGCTTCCGGCCTTCCCTCCCACTAATAATTCTGAGG'
+url = "https://raw.githubusercontent.com/phagenomics/GENE5120/main/rosalind_gc.txt"
+filename = "rosalind_gc.txt"
+
+response = requests.get(url)
+
+if response.status_code == 200:
+    with open(filename, "w") as file:
+        file.write(response.text)
+    print(f"File downloaded successfully as {filename}")
+else:
+    print("Failed to download file")
+INPUT = 'rosalind_gc.txt'
+
+def read_fasta(file_path):
+    sequences = {}  # Dictionary 
+    header = None
+
+    with open (file_path,'r') as file:
+        for line in file:
+            line = line.strip()
+
+            if line.startswith(">"):
+                header = line[1:]
+                sequences[header]= ""
+            else:
+                sequences[header] += line
+    
+    return sequences
+
+def compute_gc_content(sequences):
+    max_gc = 0  
+    max_gc_header = ""  # Track with the highest GC-content
+
+    for header, sequence in sequences.items():
+        gc_count = sequence.count("G") + sequence.count("C")  # Count G and C bases
+        gc_percentage = (gc_count / len(sequence)) * 100  # Calculate GC-content
+
+        if gc_percentage > max_gc:  # Update max GC-content 
+            max_gc_header = header
+
+    return max_gc_header, max_gc
+
+sequences = read_fasta(INPUT)  # Read sequences from FASTA file
+best_header, best_gc = compute_gc_content(sequences)  # seq highest GC-content
+
+# Print the result
+print(best_header)
+print(f"{best_gc:.6f}") 
+
+
+### Downloaded FASTA file, made into dictionary
+### compute the GC content, find and print highest GC
