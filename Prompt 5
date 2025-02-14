@@ -1,2 +1,18 @@
 #HAMM
 #Counting Point Mutations 
+
+s = 'GAGCCTACTAACGGGAT'
+t = 'CATCGTAATGACGGCCT'
+
+def count_mutations(s, t):
+    count = 0  # Index tracker
+    mutations = 0  # Mutation counter
+
+    while count != len(s):  # Loop through sequences
+        if s[count] != t[count]:  # Compare characters
+            mutations += 1  # Increment mutation count if different
+        count += 1  # Move to the next index
+
+    return mutations  # Return total mutations
+
+print(count_mutations(s, t))  # Output: Number of mutations
