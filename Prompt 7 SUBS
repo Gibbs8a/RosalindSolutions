@@ -1,0 +1,45 @@
+#Given two DNA strings, s and t, identify all starting positions where t appears as a substring within s.
+#Write a program that takes two DNA strings, s (up to 1000 bp) and t, 
+#and returns all positions where t appears as a substring in s (1-based indexing).
+#utilizing a for loop and manual indexing 
+
+s = 'GATATATGCATATACTT'
+t = 'ATAT'
+
+def find_substring (s,t):
+    positions = []
+    t_length = len(t) # i want this variable to tell me the length of t
+
+    for i in range(len(s)-t_length+1):
+        match = True
+
+        for corr in range (t_length):
+            if s[i + corr] != t[corr]:
+                match = False
+                break   #if this doesn't match, break out
+
+        if match:
+            positions.append(i+1) #store the indeces
+
+    return positions #made above as an empty list storage
+
+result = find_substring(s,t)
+print (result)
+
+
+#Secondary Attempt
+def substring_positions(a, b):
+    pos = []  # List to store positions
+
+    for i in range(len(a) - len(b) + 1):  # Loop through s
+        if s[i:i+len(b)] == b:  # Compare substring directly
+            pos.append(i + 1)  # Store 1-based position
+
+    return pos  # Return list 
+
+# Example usage:
+a = "GATATATGCATATACTT"
+b = "ATAT"
+
+print(substring_positions(a, b))  
+# Output: [2, 4, 10]
