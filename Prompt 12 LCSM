@@ -1,0 +1,30 @@
+# Read the DNA sequences from the file
+with open('rosalind_lcsm.txt', 'r') as file:
+    dna = file.read()
+
+# Function to parse FASTA format and extract sequences
+def parse_fasta(data):
+    sequences, seq = [], ""
+    for line in data.strip().splitlines():
+        if line.startswith('>'):
+            if seq:
+                sequences.append(seq)  # Store previous sequence
+            seq = ""  # Start new sequence
+        else:
+            seq += line.strip()
+    sequences.append(seq)  # Add the last sequence
+    return sequences
+
+# Function to find the longest common substring among sequences
+def longest_common_substring(sequences):
+    ref_seq = min(sequences, key=len)  # Use the shortest sequence to reduce comparisons
+    for length in range(len(ref_seq), 0, -1):  # Start with longest possible substring
+        for start in range(len(ref_seq) - length + 1):
+            substr = ref_seq[start:start + length]
+            if all(substr in seq for seq in sequences):  # Check if substring is in all sequences
+                return substr
+    return ""
+
+# Process the FASTA file and find the longest common substring
+dna_sequences = parse_fasta(dna)
+print(longest_common_substring(dna_sequences))

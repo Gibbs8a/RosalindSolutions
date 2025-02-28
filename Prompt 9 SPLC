@@ -1,0 +1,120 @@
+# #RNA Splicing
+# #Given a DNA string and a set of intron sequences in FASTA format, remove the introns, concatenate the remaining exons, and translate the resulting RNA sequence into a protein string.
+
+# >Rosalind_10
+# ATGGTCTACATAGCTGACAAACAGCACGTAGCAATCGGTCGAATCTCGAGAGGCATATGGTCACATGATCGGTCGAGCGTGTTTCAAAGTTTGCGCCTAG
+# >Rosalind_12
+# ATCGGTCGAA
+# >Rosalind_15
+# ATCGGTCGAGCGTGT
+
+# # Step 1: Define the input (normally read from FASTA format)
+# s = "ATGGTCTACATAGCTGACAAACAGCACGTAGCAATCGGTCGAATCTCGAGAGGCATATGGTCACATGATCGGTCGAGCGTGTTTCAAAGTTTGCGCCTAG"
+# introns = ["ATCGGTCGAA", "ATCGGTCGAGCGTGT"]
+
+# # Step 2: Remove introns from the DNA sequence
+# for intron in introns:
+#     s = s.replace(intron, "")
+
+# # Step 3: Transcribe DNA to RNA (T -> U)
+# rna = s.replace("T", "U")
+
+# # Step 4: Define a codon table for translation
+# codon_table = {
+#     "UUU": "F", "UUC": "F", "UUA": "L", "UUG": "L",
+#     "UCU": "S", "UCC": "S", "UCA": "S", "UCG": "S",
+#     "UAU": "Y", "UAC": "Y", "UAA": "", "UAG": "",
+#     "UGU": "C", "UGC": "C", "UGA": "", "UGG": "W",
+#     "CUU": "L", "CUC": "L", "CUA": "L", "CUG": "L",
+#     "CCU": "P", "CCC": "P", "CCA": "P", "CCG": "P",
+#     "CAU": "H", "CAC": "H", "CAA": "Q", "CAG": "Q",
+#     "CGU": "R", "CGC": "R", "CGA": "R", "CGG": "R",
+#     "AUU": "I", "AUC": "I", "AUA": "I", "AUG": "M",
+#     "ACU": "T", "ACC": "T", "ACA": "T", "ACG": "T",
+#     "AAU": "N", "AAC": "N", "AAA": "K", "AAG": "K",
+#     "AGU": "S", "AGC": "S", "AGA": "R", "AGG": "R",
+#     "GUU": "V", "GUC": "V", "GUA": "V", "GUG": "V",
+#     "GCU": "A", "GCC": "A", "GCA": "A", "GCG": "A",
+#     "GAU": "D", "GAC": "D", "GAA": "E", "GAG": "E",
+#     "GGU": "G", "GGC": "G", "GGA": "G", "GGG": "G"
+# }
+
+# # Step 5: Translate RNA to a protein sequence
+# protein = ""
+# for i in range(0, len(rna), 3):  # Read every 3 nucleotides (codon)
+#     codon = rna[i:i+3]
+#     if codon in codon_table and codon_table[codon]:  # Stop translation at STOP codons
+#         protein += codon_table[codon]
+
+# # Print the final protein sequence
+# print("Protein:", protein)
+
+#New Attempt
+codon_table = {
+    "UUU": "F", "UUC": "F", "UUA": "L", "UUG": "L",
+    "UCU": "S", "UCC": "S", "UCA": "S", "UCG": "S",
+    "UAU": "Y", "UAC": "Y", "UAA": "", "UAG": "",
+    "UGU": "C", "UGC": "C", "UGA": "", "UGG": "W",
+    "CUU": "L", "CUC": "L", "CUA": "L", "CUG": "L",
+    "CCU": "P", "CCC": "P", "CCA": "P", "CCG": "P",
+    "CAU": "H", "CAC": "H", "CAA": "Q", "CAG": "Q",
+    "CGU": "R", "CGC": "R", "CGA": "R", "CGG": "R",
+    "AUU": "I", "AUC": "I", "AUA": "I", "AUG": "M",
+    "ACU": "T", "ACC": "T", "ACA": "T", "ACG": "T",
+    "AAU": "N", "AAC": "N", "AAA": "K", "AAG": "K",
+    "AGU": "S", "AGC": "S", "AGA": "R", "AGG": "R",
+    "GUU": "V", "GUC": "V", "GUA": "V", "GUG": "V",
+    "GCU": "A", "GCC": "A", "GCA": "A", "GCG": "A",
+    "GAU": "D", "GAC": "D", "GAA": "E", "GAG": "E",
+    "GGU": "G", "GGC": "G", "GGA": "G", "GGG": "G"
+}
+
+
+def rna_splicing(dna_string, introns):
+    # Remove introns from the DNA string
+    for intron in introns:
+        dna_string = dna_string.replace(intron, "")
+
+    # Convert remaining DNA sequence into a protein sequence
+    protein_string = ""  # Ensure it is initialized
+    for i in range(0, len(dna_string) - 2, 3):
+        codon = dna_string[i:i+3]
+        if coding_table.get(codon, "X") == "end":  # Use .get() to prevent errors
+            break
+        protein_string += coding_table.get(codon, "")  # Default to empty if codon not found
+
+    return protein_string
+
+
+def read_fasta(file_path):
+    sequences = []
+    current_seq = ""
+
+    with open(file_path, "r") as file:
+        for line in file:
+            line = line.strip()
+            if line.startswith(">"):  # New sequence header
+                if current_seq:  
+                    sequences.append(current_seq)  
+                current_seq = ""  
+            else:
+                current_seq += line  # Add sequence lines together
+
+        if current_seq:  
+            sequences.append(current_seq)  
+
+    return sequences
+
+
+if __name__ == "__main__":
+    fasta_file = "../data/rosalind_splc.txt"
+    seq_list = read_fasta(fasta_file)
+
+    if seq_list:  # Ensure file was read properly
+        dna_string = seq_list[0]
+        introns = seq_list[1:]
+
+        protein_string = rna_splicing(dna_string, introns)
+        print(protein_string)
+    else:
+        print("Error: No sequences found in the file.")
